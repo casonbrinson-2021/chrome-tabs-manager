@@ -23,6 +23,7 @@
 .section-title {
     font-size: 24px;
     font-weight: 400;
+    user-select: none;
 }
 
 /* favorites */
@@ -83,6 +84,14 @@
     align-items: center;
     font-size: 24px;
 }
+.emoji-container:hover {
+    background-color: #DFE1E5;
+    border-radius: 4px;
+}
+
+.emoji {
+    user-select: none;
+}
 
 /* tab groups */
 .tab-groups-list-container {
@@ -94,6 +103,7 @@
     border: 1px solid white;
     border-radius: 4px;
     padding: 7px;
+    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -111,10 +121,12 @@
 
 .tab-group-title {
     font-size: 16px;
+    user-select: none;
 }
 
 .tab-group-count {
     font-size: 16px; 
     color: #D9D9D9;
+    user-select: none;
 }
 

@@ -47,11 +47,22 @@ const tabGroupsData = [
             'https://youtube.com',
             'https://google.com',
         ]
+    },
+    {
+        name: 'Another Group Name',
+        links: [
+            'https://youtube.com',
+            'https://google.com',
+        ]
     }
 ]
 
 const openUrlInNewWindow = (url) => window.open(url, '_blank').focus()
 const openTabGroup = (urlList) => console.log('opening tab group....\n', urlList.split(','))
+const openEmojiPicker = (e) => {
+    e.stopPropagation()
+    console.log('opening emoji picker')
+}
 
 const template = document.createElement('template')
 template.innerHTML = `
@@ -64,7 +75,7 @@ template.innerHTML = `
                 ${tabGroupsData.map(tabGroup => `
                     <div class="tab-group" onclick="openTabGroup('${tabGroup.links}')">
                         <div class="tab-group-title-container">
-                            <div class="emoji-container"><span>&#128516;</span></div>
+                            <div class="emoji-container" onclick="openEmojiPicker(event)"><span class="emoji">&#128516;</span></div>
                             <p class="tab-group-title">${tabGroup.name}</p>
                         </div>
                         <p class="tab-group-count">${tabGroup.links.length} tabs</p>
@@ -81,7 +92,6 @@ template.innerHTML = `
                 `).join('\n')}
                 ${favoritesFoldersData.map(folder => `
                     <div class="link-folder-title-container">
-                        <div class="emoji-container"><span>&#128516;</span></div>
                         <p class="link-folder">${folder.folderName}</p>
                         <img src="./dropdown-icon.svg" class="dropdown-icon"/>
                     </div>
