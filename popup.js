@@ -14,6 +14,7 @@
 //       name: 'Cason\'s Website'
 //   },
 // ]
+
 // const favoritesFoldersData = [
 //   {
 //       folderName: 'Folder 1',
@@ -42,6 +43,7 @@
 //       ]
 //   }
 // ]
+
 // const tabGroupsData = [
 //   {
 //       name: 'Group Name',
@@ -62,9 +64,11 @@
 //set stuff up in local storage
 // localStorage.setItem('favoritesFoldersData', JSON.stringify(favoritesFoldersData))
 // localStorage.setItem('tabGroupsData', JSON.stringify(tabGroupsData))
+// localStorage.setItem('favoritesLinksData', JSON.stringify(favoritesLinksData))
 
 const tgd = JSON.parse(localStorage.getItem('tabGroupsData'))
 const ffd = JSON.parse(localStorage.getItem('favoritesFoldersData'))
+const fld = JSON.parse(localStorage.getItem('favoritesLinksData'))
 
 //----------------------------------------------------
 
@@ -76,6 +80,11 @@ const openTabGroup = (urlList) => {
 const openEmojiPicker = (e) => {
     e.stopPropagation()
     console.log('opening emoji picker')
+}
+const addCurrentTabToFavorites = async () => {
+  let queryOptions = { active: true, currentWindow: true };
+  let [tab] = await chrome.tabs.query(queryOptions);
+  console.log('adding current tab to favorites: ', tab.url)
 }
 
 //elements I might need
@@ -143,6 +152,22 @@ ffd.forEach(folderInfo => {
   favoritesListElem.appendChild(folder)
 })
 
+/* step 3 populate favorites links data into the right spots and create all event handlers and logic for it */
+fld.forEach(linkInfo => {
+  const link = document.createElement('p')
+  link.classList.add('link')
+  link.innerText = `${linkInfo.name}`
+  link.addEventListener('click', () => openUrlInNewWindow(linkInfo.url))
+
+  favoritesListElem.appendChild(link)
+})
+
+//add in other event listeners for on hovers and such
+//add new favorite button
+const addFavoriteButton = document.querySelector('.add-icon')
+addFavoriteButton.addEventListener('mouseenter', () => document.querySelector('.add-icon-hover-text-container').classList.toggle('hidden'))
+addFavoriteButton.addEventListener('mouseleave', () => document.querySelector('.add-icon-hover-text-container').classList.toggle('hidden'))
+addFavoriteButton.addEventListener('click', addCurrentTabToFavorites)
 
 
 
