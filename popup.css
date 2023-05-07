@@ -84,6 +84,7 @@ body {
     padding: 5px;
     cursor: pointer;
     user-select: none;
+    border-radius: 3px;
 }
 .link:hover {
     background-color: #C6C6C6;
@@ -97,6 +98,7 @@ body {
     font-weight: 400;
     padding: 5px 0 5px 5px;
     cursor: pointer;
+    border-radius: 3px;
 }
 .folder-title-container:hover {
     background-color: #C6C6C6;

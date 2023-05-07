@@ -84,7 +84,9 @@ const openEmojiPicker = (e) => {
 const addCurrentTabToFavorites = async () => {
   let queryOptions = { active: true, currentWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
-  console.log('adding current tab to favorites: ', tab.url)
+  // const favoritesLinksFromStorage = JSON.parse(localStorage.getItem('favoritesLinksData'))
+  // const newFavoritesLinks = [{url: tab.url, name: tab.url}, ...favoritesLinksFromStorage]
+  // localStorage.setItem('favoritesLinksData', JSON.stringify(newFavoritesLinks))
 }
 
 //elements I might need
