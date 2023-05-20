@@ -81,8 +81,14 @@ const openEmojiPicker = (e) => {
     e.stopPropagation()
     console.log('opening emoji picker')
 }
+const clearAddPopupInputFields = () => {
+  document.querySelector('.popup-name-input').value = ''
+  document.querySelector('.popup-url-input').value = ''
+}
 const clickAddFavoriteButton = async () => {
   console.log('clicked the add button')
+
+  clearAddPopupInputFields()
   document.querySelector('.add-popup').classList.toggle('hidden')
   document.querySelector('.popup-background-blocker').classList.toggle('hidden')
   // let queryOptions = { active: true, currentWindow: true }
@@ -90,6 +96,13 @@ const clickAddFavoriteButton = async () => {
   // const favoritesLinksFromStorage = JSON.parse(localStorage.getItem('favoritesLinksData'))
   // const newFavoritesLinks = [{url: tab.url, name: tab.url}, ...favoritesLinksFromStorage]
   // localStorage.setItem('favoritesLinksData', JSON.stringify(newFavoritesLinks))
+}
+const closeAddFavoritePopup = () => {
+  console.log('clicked the cancel button')
+
+  clearAddPopupInputFields()
+  document.querySelector('.add-popup').classList.toggle('hidden')
+  document.querySelector('.popup-background-blocker').classList.toggle('hidden')
 }
 
 //elements I might need
@@ -176,10 +189,7 @@ addFavoriteButton.addEventListener('click', clickAddFavoriteButton)
 
 //add listeners to the popup buttons (add and cancel)
 const addFavoritePopup = document.querySelector('.add-popup')
-document.querySelector('.cancel-button').addEventListener('click', () => {
-  addFavoritePopup.classList.toggle('hidden')
-  document.querySelector('.popup-background-blocker').classList.toggle('hidden')
-})
+document.querySelector('.cancel-button').addEventListener('click', closeAddFavoritePopup)
 
 
 
