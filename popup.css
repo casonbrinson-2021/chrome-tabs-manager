@@ -54,7 +54,7 @@ body {
     left: 50%;
     bottom: 5px;
     padding: 5px;
-    width: 100px;
+    width: 110px;
     display: flex;
     justify-content: center;
     transform: translateX(-50%);
@@ -65,10 +65,14 @@ body {
     font-size: 12px;
     color: white;
 }
-.hidden {
-    display: none;
+
+.popup-background-blocker {
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
 }
 
+/* popup stuff */
 .add-popup {
     width: 250px;
     height: 150px;
@@ -103,6 +107,32 @@ input {
     padding-right: 6px;
     font-size: 16px;
     align-items: center;
+}
+
+.button-container {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: end;
+}
+
+.popup-button {
+    width: 80px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.done-button {
+    background-color: #50C878;
+}
+
+.cancel-button {
+    background-color: #94949472;
+    margin-right: 10px;
 }
 
 /* favorites */
@@ -213,4 +243,9 @@ input {
     font-size: 16px; 
     color: #D9D9D9;
     user-select: none;
+}
+
+/* classes for random use throughout */
+.hidden {
+    display: none;
 }
