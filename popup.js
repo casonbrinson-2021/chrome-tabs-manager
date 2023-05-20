@@ -84,6 +84,7 @@ const openEmojiPicker = (e) => {
 const clickAddFavoriteButton = async () => {
   console.log('clicked the add button')
   document.querySelector('.add-popup').classList.toggle('hidden')
+  document.querySelector('.popup-background-blocker').classList.toggle('hidden')
   // let queryOptions = { active: true, currentWindow: true }
   // let [tab] = await chrome.tabs.query(queryOptions)
   // const favoritesLinksFromStorage = JSON.parse(localStorage.getItem('favoritesLinksData'))
@@ -171,25 +172,14 @@ const addFavoriteButton = document.querySelector('.add-icon')
 addFavoriteButton.addEventListener('mouseenter', () => document.querySelector('.add-icon-hover-text-container').classList.toggle('hidden'))
 addFavoriteButton.addEventListener('mouseleave', () => document.querySelector('.add-icon-hover-text-container').classList.toggle('hidden'))
 
-//create popup element and add the listeners and such for it
-// const addItemPopupElem = document.createElement('div')
-// addItemPopupElem.classList.add('add-popup')
-// addItemPopupElem.innerHTML = `
-//   <div class="input-container">
-//       <label for="add-popup-name" class="label">Name</label>
-//       <input name="add-popup-name" type="text">
-//   </div>
-//   <div class="input-container">
-//       <label for="add-popup-url" class="label">URL</label>
-//       <input name="add-popup-url" type="text" class="add-popup-url-input">
-//   </div>
-//   <div class="button-container">
-//       <div class="cancel-button popup-button">Cancel</div>
-//       <div class="done-button popup-button">Add</div>
-//   </div>
-// `
-
 addFavoriteButton.addEventListener('click', clickAddFavoriteButton)
+
+//add listeners to the popup buttons (add and cancel)
+const addFavoritePopup = document.querySelector('.add-popup')
+document.querySelector('.cancel-button').addEventListener('click', () => {
+  addFavoritePopup.classList.toggle('hidden')
+  document.querySelector('.popup-background-blocker').classList.toggle('hidden')
+})
 
 
 

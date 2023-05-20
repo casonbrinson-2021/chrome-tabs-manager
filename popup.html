@@ -9,6 +9,8 @@
 </head>
 <body>
 
+    <div class="popup-background-blocker hidden"></div>
+
     <div class="section-container">
         <h2 class="section-title">Tab Groups</h2>
         <div class="tab-groups-list-container">
@@ -22,20 +24,18 @@
             <div class="add-icon-container">
                 <img src="./add-icon.svg" alt="add" class="add-icon">
                 <div class="add-icon-hover-text-container hidden"><p class="add-icon-hover-text">Add new favorite</p></div>
-                <div class="popup-background-blocker">
-                    <div class="add-popup hidden">
-                        <div class="input-container">
-                            <label for="add-popup-name" class="label">Name</label>
-                            <input name="add-popup-name" type="text">
-                        </div>
-                        <div class="input-container">
-                            <label for="add-popup-url" class="label">URL</label>
-                            <input name="add-popup-url" type="text" class="add-popup-url-input">
-                        </div>
-                        <div class="button-container">
-                            <div class="cancel-button popup-button">Cancel</div>
-                            <div class="done-button popup-button">Add</div>
-                        </div>
+                <div class="add-popup hidden">
+                    <div class="input-container">
+                        <label for="add-popup-name" class="label">Name</label>
+                        <input name="add-popup-name" type="text">
+                    </div>
+                    <div class="input-container">
+                        <label for="add-popup-url" class="label">URL</label>
+                        <input name="add-popup-url" type="text" class="add-popup-url-input">
+                    </div>
+                    <div class="button-container">
+                        <div class="cancel-button popup-button">Cancel</div>
+                        <div class="add-button popup-button">Add</div>
                     </div>
                 </div>
             </div>
