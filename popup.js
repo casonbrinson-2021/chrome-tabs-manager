@@ -74,8 +74,46 @@ const fld = JSON.parse(localStorage.getItem('favoritesLinksData'))
 
 //helper functions
 const openUrlInNewWindow = (url) => window.open(url, '_blank').focus()
-const openTabGroup = (urlList) => {
-  urlList.forEach(url => chrome.tabs.create({url: url}))
+const openTabGroup = async (urlList, groupName) => {
+  const newTabIds = []
+  for(let i = 0; i < urlList.length; i++) {
+    const newTab = await chrome.tabs.create({url: urlList[i], active: false})
+    newTabIds.push(newTab.id)
+  }
+
+  const groupId = await chrome.tabs.group({ tabIds: newTabIds })
+  await chrome.tabGroups.update(groupId, { title: groupName, color: 'blue' })
+}
+const deleteTabGroup = (id) => {
+  const tabGroupsFromStorage = JSON.parse(localStorage.getItem('tabGroupsData'))
+
+  const newTabGroups = tabGroupsFromStorage.filter((elem) => elem.id !== id)
+
+  localStorage.setItem('tabGroupsData', JSON.stringify(newTabGroups))
+
+  document.querySelector('.tab-groups-list-container').innerHTML = ''
+  populateTabGroups()
+}
+const clickAddTabGroupButton = async () => {
+  const openGroups = await chrome.tabGroups.query({})
+  
+  //add groups to local storage to save them
+  const newGroupsList = []
+  for(let i = 0; i < openGroups.length; i++) {
+    const currGroup = openGroups[i]
+    const tabs = await chrome.tabs.query({groupId: currGroup.id})
+    newGroupsList.push({name: currGroup.title, links: tabs.map(tab => tab.url), color: currGroup.color, id: Date.now()})
+  }
+
+  const tabGroupsFromStorage = JSON.parse(localStorage.getItem('tabGroupsData'))
+  const updatedTabGroups = [...tabGroupsFromStorage, ...newGroupsList]
+  localStorage.setItem('tabGroupsData', JSON.stringify(updatedTabGroups))
+
+  document.querySelector('.tab-groups-list-container').innerHTML = ''
+  populateTabGroups()
+}
+const checkIfGroupExistsAlready = () => {
+  console.log('write me :p')
 }
 const openEmojiPicker = (e) => {
     e.stopPropagation()
@@ -134,22 +172,27 @@ const populateTabGroups = () => {
   const tabGroupsListElem = document.querySelector('.tab-groups-list-container')
   JSON.parse(localStorage.getItem('tabGroupsData')).forEach(tabGroupInfo => {
     //create the tab group
-    const tabGroup = document.createElement('div')
-    tabGroup.classList.add('tab-group')
-    tabGroup.innerHTML = `
-      <div class="tab-group-title-container">
-        <div class="emoji-container"><span class="emoji">&#128516;</span></div>
-        <p class="tab-group-title">${tabGroupInfo.name}</p>
+    const tabGroupContainer = document.createElement('div')
+    tabGroupContainer.classList.add('tab-group-container')
+    tabGroupContainer.innerHTML = `
+      <div class="tab-group">
+        <div class="tab-group-title-container">
+          <div class="emoji-container"><span class="emoji">&#128516;</span></div>
+          <p class="tab-group-title">${tabGroupInfo.name}</p>
+        </div>
+        <p class="tab-group-count">${tabGroupInfo.links.length} tabs</p>
       </div>
-      <p class="tab-group-count">${tabGroupInfo.links.length} tabs</p>
+      <img src="./trash-icon.svg" class="trash-icon invisible"/>
     `
 
     //add any event handlers needed
+    const tabGroup = tabGroupContainer.querySelector('.tab-group')
     tabGroup.querySelector('.emoji-container').addEventListener('click', openEmojiPicker)
-    tabGroup.addEventListener('click', () => openTabGroup(tabGroupInfo.links))
+    tabGroup.addEventListener('click', () => openTabGroup(tabGroupInfo.links, tabGroupInfo.name))
+    tabGroupContainer.querySelector('.trash-icon').addEventListener('click', () => deleteTabGroup(tabGroupInfo.id))
 
     //add the tab group to the list 
-    tabGroupsListElem.appendChild(tabGroup)
+    tabGroupsListElem.appendChild(tabGroupContainer)
   })
 }
 populateTabGroups()
@@ -216,17 +259,20 @@ const populateFavoritesLinks = () => {
 populateFavoritesLinks()
 
 //add new favorite button and listeners for it
-const addFavoriteButton = document.querySelector('.add-icon')
-addFavoriteButton.addEventListener('mouseenter', () => document.querySelector('.add-icon-hover-text-container').classList.toggle('hidden'))
-addFavoriteButton.addEventListener('mouseleave', () => document.querySelector('.add-icon-hover-text-container').classList.toggle('hidden'))
+const addFavoriteButton = document.querySelector('.add-favorite')
+// addFavoriteButton.addEventListener('mouseenter', () => document.querySelector('.add-icon-hover-text-container').classList.toggle('hidden'))
+// addFavoriteButton.addEventListener('mouseleave', () => document.querySelector('.add-icon-hover-text-container').classList.toggle('hidden'))
 
 addFavoriteButton.addEventListener('click', clickAddFavoriteButton)
+
+const addTabGroupButton = document.querySelector('.add-tab-group')
+addTabGroupButton.addEventListener('click', clickAddTabGroupButton)
 
 //add listeners to the popup buttons (add and cancel)
 document.querySelector('.cancel-button').addEventListener('click', closeAddFavoritePopup)
 document.querySelector('.add-button').addEventListener('click', addLinkToFavorites)
 
-//add listener for the close button for hte whole thing
+//add listener for the close button for the whole thing
 document.querySelector('.close-icon-container').addEventListener('click', () => window.close())
 
 

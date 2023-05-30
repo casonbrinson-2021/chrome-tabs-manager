@@ -2,7 +2,7 @@
     "name": "Simple Tab Manager",
     "version": "1.0",
     "manifest_version": 3,
-    "permissions": ["tabs", "activeTab", "scripting"],
+    "permissions": ["tabs", "tabGroups", "activeTab", "scripting"],
     "description": "Extension to simplify tab management",
     "action": {
         "default_popup": "popup.html",
