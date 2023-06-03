@@ -51,6 +51,24 @@ body {
     margin-right: 9px;
 }
 
+.save-icon-container {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 50%;
+}
+.save-icon-container:hover {
+    background-color: #C6C6C6;
+}
+.save-icon {
+    width: 22px;
+    height: 22px;
+    margin-top:2px;
+}
+
 .add-icon-container {
     width: 28px;
     height: 28px;
@@ -63,6 +81,7 @@ body {
     cursor: pointer;
     border-radius: 50%;
 }
+
 
 .add-icon:hover  {
     background-color: #C6C6C6;
@@ -229,6 +248,9 @@ input {
 
 .folder-content {
     display: none;
+}
+.open-folder {
+    display: block;
 }
 
 .sub-link {

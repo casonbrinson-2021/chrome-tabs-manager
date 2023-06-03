@@ -3,42 +3,51 @@
 // const favoritesLinksData = [
 //   {
 //       url: 'https://youtube.com',
-//       name: 'YouTube'
+//       name: 'YouTube',
+//       id: 1,
 //   },
 //   {
 //       url: 'https://google.com',
-//       name: 'Google'
+//       name: 'Google',
+//       id: 2,
 //   },
 //   {
 //       url: 'https://casonswebsite.com',
-//       name: 'Cason\'s Website'
+//       name: 'Cason\'s Website',
+//       id: 3,
 //   },
 // ]
 
 // const favoritesFoldersData = [
 //   {
 //       folderName: 'Folder 1',
+//       id: 4,
 //       links: [
 //           {
 //               url: 'https://google.com',
 //               name: 'Google',
+//               id: 5,
 //           },
 //           {
 //               url: 'https://youtube.com',
 //               name: 'YouTube',
+//               id: 6,
 //           }
 //       ]
 //   },
 //   {
 //       folderName: 'Folder 2',
+//       id: 7,
 //       links: [
 //           {
 //             url: 'https://youtube.com',
 //             name: 'YouTube',
+//             id: 8,
 //           },
 //           {
 //               url: 'https://google.com',
 //               name: 'Google',
+//               id: 9,
 //           }
 //       ]
 //   }
@@ -47,6 +56,7 @@
 // const tabGroupsData = [
 //   {
 //       name: 'Group Name',
+//       id: 10,
 //       links: [
 //           'https://youtube.com',
 //           'https://google.com',
@@ -54,6 +64,7 @@
 //   },
 //   {
 //       name: 'Another Group Name',
+//       id: 11,
 //       links: [
 //         'https://google.com',
 //         'https://youtube.com',
@@ -61,7 +72,7 @@
 //   }
 // ]
 
-//set stuff up in local storage
+// //set stuff up in local storage
 // localStorage.setItem('favoritesFoldersData', JSON.stringify(favoritesFoldersData))
 // localStorage.setItem('tabGroupsData', JSON.stringify(tabGroupsData))
 // localStorage.setItem('favoritesLinksData', JSON.stringify(favoritesLinksData))
@@ -166,6 +177,20 @@ const deleteLinkFromFavorites = (id) => {
   populateFavoritesFolders()
   populateFavoritesLinks()
 }
+const deleteLinkFromFavoritesFolder = (linkId, folderId) => {
+  const favoritesFoldersFromStorage = JSON.parse(localStorage.getItem('favoritesFoldersData'))
+
+  const newFavoritesFolders = favoritesFoldersFromStorage.map((folder) => {
+    if(folder.id === folderId) return { folderName: folder.folderName, id: folder.id, links: folder.links.filter((link) => link.id !== linkId) }
+    return folder
+  })
+
+  localStorage.setItem('favoritesFoldersData', JSON.stringify(newFavoritesFolders))
+
+  document.querySelector('.favorites-list-container').innerHTML = ''
+  populateFavoritesFolders([folderId])
+  populateFavoritesLinks()
+}
 
 /* step 1 - populate tab groups data into the right spots and create all event handlers and logic for it */
 const populateTabGroups = () => {
@@ -198,7 +223,7 @@ const populateTabGroups = () => {
 populateTabGroups()
 
 /* step 2 - populate favorites data into the right spots and create all event handlers and logic for it */
-const populateFavoritesFolders = () => {
+const populateFavoritesFolders = (openFolderIds = []) => {
   const favoritesListElem = document.querySelector('.favorites-list-container')
   JSON.parse(localStorage.getItem('favoritesFoldersData')).forEach(folderInfo => {  
     //create the folder
@@ -216,13 +241,19 @@ const populateFavoritesFolders = () => {
     folderContent.classList.add('folder-content')
     folderInfo.links.forEach(linkInfo => {
       //create the link
-      const link = document.createElement('p')
-      link.classList.add('sub-link', 'link')
-      link.innerText = `${linkInfo.name}`
-      link.addEventListener('click', () => openUrlInNewWindow(linkInfo.url))
+      const container = document.createElement('div')
+      container.classList.add('link-container', 'sub-link')
+      container.innerHTML = `
+        <p class="link">${linkInfo.name}</p>
+        <img src="./trash-icon.svg" class="trash-icon hidden"/>
+      `
+      container.querySelector('.link').addEventListener('click', () => openUrlInNewWindow(linkInfo.url))
+      container.querySelector('.trash-icon').addEventListener('click', () => deleteLinkFromFavoritesFolder(linkInfo.id, folderInfo.id))
+
+      if (openFolderIds.includes(folderInfo.id)) folderContent.classList.add('open-folder')
 
       //add the link to the folder content
-      folderContent.appendChild(link)
+      folderContent.appendChild(container)
     })
 
     //add event listeners to folder title
