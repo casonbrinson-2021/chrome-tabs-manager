@@ -6,15 +6,19 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=ABeeZee&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="popup.css">
-</head>
-<body>
 
+</head>
+<body>    
     <div class="popup-background-blocker hidden"></div>
     <div class="close-icon-container"><img src="./close-icon.svg" class="close-icon"></img></div>
 
     <div class="section-container">
         <div class="section-title-container">
             <h2 class="section-title">Tab Groups</h2>
+            <div class="edit-icon-container">
+                <img src="./edit-icon.svg" alt="edit" class="edit-icon">
+                <div class="edit-icon-hover-text-container hidden"><p class="edit-icon-hover-text">Add new favorite</p></div>
+            </div>
             <div class="save-icon-container add-tab-group">
                 <img src="./save-icon.svg" alt="add" class="save-icon">
                 <div class="add-icon-hover-text-container hidden"><p class="add-icon-hover-text">Add new favorite</p></div>
@@ -34,11 +38,11 @@
                 <div class="add-popup hidden">
                     <div class="input-container">
                         <label for="add-popup-name" class="label">Name</label>
-                        <input name="add-popup-name" type="text" class="popup-name-input">
+                        <input id="add-popup-name" name="add-popup-name" type="text" class="popup-name-input">
                     </div>
                     <div class="input-container">
                         <label for="add-popup-url" class="label">URL</label>
-                        <input name="add-popup-url" type="text" class="popup-url-input">
+                        <input id="add-popup-url" name="add-popup-url" type="text" class="popup-url-input">
                     </div>
                     <div class="button-container">
                         <div class="cancel-button popup-button">Cancel</div>
@@ -53,9 +57,7 @@
     </div>
 
     
-   
-
-    <!--May move but I don't think it matters-->
+    <!-- May move but I don't think it matters -->
     <script src="popup.js"></script>
 </body>
 </html>

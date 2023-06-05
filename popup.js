@@ -1,3 +1,7 @@
+//delay showing the DOM until JS is done
+document.querySelector('body').style.visibility = 'hidden'
+
+
 /*remove later*/
 //----------------------------------------------------
 // const favoritesLinksData = [
@@ -19,7 +23,7 @@
 // ]
 
 // const favoritesFoldersData = [
-//   {
+// {
 //       folderName: 'Folder 1',
 //       id: 4,
 //       links: [
@@ -231,8 +235,8 @@ const populateFavoritesFolders = (openFolderIds = []) => {
     folder.classList.add('folder')
     folder.innerHTML = `
       <div class="folder-title-container">
-        <p class="link-folder">${folderInfo.folderName}</p>
         <img src="./dropdown-icon.svg" class="dropdown-icon"/>
+        <p class="link-folder">${folderInfo.folderName}</p>
       </div>
     `
 
@@ -242,9 +246,9 @@ const populateFavoritesFolders = (openFolderIds = []) => {
     folderInfo.links.forEach(linkInfo => {
       //create the link
       const container = document.createElement('div')
-      container.classList.add('link-container', 'sub-link')
+      container.classList.add('link-container')
       container.innerHTML = `
-        <p class="link">${linkInfo.name}</p>
+        <p class="link sub-link">${linkInfo.name}</p>
         <img src="./trash-icon.svg" class="trash-icon hidden"/>
       `
       container.querySelector('.link').addEventListener('click', () => openUrlInNewWindow(linkInfo.url))
@@ -307,6 +311,9 @@ document.querySelector('.add-button').addEventListener('click', addLinkToFavorit
 document.querySelector('.close-icon-container').addEventListener('click', () => window.close())
 
 
+
+//Show everything now that the JS is done
+document.querySelector('body').style.visibility = 'visible'
 
 
 
